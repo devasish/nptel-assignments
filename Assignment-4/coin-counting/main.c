@@ -6,32 +6,49 @@ int ct = 0;
 
 int step(int depth, int maxDiv, int dynAmount, int amount) {
     int rem, i, x;
-    printf("depth=%d,dynAmount=%d\n", depth,dynAmount);
-    if (maxDiv == -2) {
+    printf("depth=%d, maxDiv=%d, dynAmount=%d\n", depth, maxDiv, dynAmount);
+    if(depth < 0) {
+        return 0;
+    }
+    if (maxDiv < 0) {
         maxDiv = floor(dynAmount / c[depth]);
     }
-    
-    for (maxDiv; maxDiv > 0; maxDiv--) {
-        rem = dynAmount - (c[depth] * maxDiv) ;
-        if (rem == 0 ){
-            printf("A\n");
-            ct++;
-        } else if(--depth >= 0){
-            printf("B\n");
-            step(depth, -2, rem, amount);
-        } else {
-            printf("C\n");
-        }
-        
-        if (maxDiv == 0) {
-                step(depth, maxDiv - 1, dynAmount, amount);
-        }
+
+    rem = dynAmount - (c[depth] * maxDiv);
+    if (rem == 0) {
+        printf("A\n");
+        ct++;
     }
     
-    if(--depth >= 0){
-        step(depth, -2, amount, amount);
+    if (maxDiv - 1 >= 0) {
+        step(depth, maxDiv - 1, rem, amount);
     }
     
+    step(depth - 1, maxDiv - 1, dynAmount, amount);
+
+
+    //    for (maxDiv; maxDiv >= 0; maxDiv--) {
+    //        rem = dynAmount - (c[depth] * maxDiv);
+    //        if (rem == 0) {
+    //            printf("A\n");
+    //            ct++;
+    //        } else if (depth - 1 >= 0) {
+    //            printf("B ");
+    //            step(--depth, maxDiv, rem, amount);
+    //        } else {
+    //            //printf("C ");
+    //            //step(depth, maxDiv - 1, rem, amount);
+    //        }
+    //
+    //        if (maxDiv == 0) {
+    //            step(depth, maxDiv - 1, dynAmount, amount);
+    //        }
+    //    }
+
+    // if(--depth >= 0){
+    // step(depth, -2, amount, amount);
+    // }
+
     return 0;
 }
 
@@ -40,10 +57,10 @@ int main() {
     scanf("%d", &a);
     step(2, -2, a, a);
     printf("%d", ct);
-//    step(1, a, a);
-//    printf("%d", ct);
-//    step(0, a, a);
-//    printf("%d", ct);
+    // step(1, -2, a, a);
+    // printf("%d", ct);
+    // step(0, -2, a, a);
+    // printf("%d", ct);
     return EXIT_SUCCESS;
 }
 
